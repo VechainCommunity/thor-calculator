@@ -9,6 +9,7 @@ https://medium.com/@vechainofficial/vechain-apotheosis-part-ii-thor-power-forged
 # x-nodes: 
 https://medium.com/@vechainofficial/vechain-x-series-6b77b746b4b2
 */ 
+const Table = require('cli-table2');
 
 const Million = 1000000;
 const Base_Thor_Rate = 0.00042; // VTHO per VET per Day
@@ -22,8 +23,18 @@ const Requirement = {
   Strength: 1   *Million
 }
 const RequirementXBonus = 0.6*Million;
+const Ecosystem = {
+  Mjolnir_Nodes_Number: 200,
+  Thunder_Nodes_Number: 300,
+  Strnegth_Nodes_Number: 1000,
+  Vethor_Nodes_Number: 2000
+}
 
-const getBaseRate = (Mjolnir_Nodes_Number=667, Thunder_Nodes_Number=500, Strnegth_Nodes_Number=3000) => {
+const getBaseRate = (
+  Mjolnir_Nodes_Number = Ecosystem.Mjolnir_Nodes_Number,
+  Thunder_Nodes_Number = Ecosystem.Thunder_Nodes_Number,
+  Strnegth_Nodes_Number = Ecosystem.Strnegth_Nodes_Number
+) => {
   const B = Base_Thor_Rate                                   // Base VeThor generation rate for 1 VET held (0.00042 VeThor a day);
   const FR = Foundation_Reward_Pool_Amount                   // Amount of VET distributed from the Foundation Reward Pool (150 million VET);
   const F = FR*B                                             // Amount of VeThor the Foundation Reward Pool generates per Day (150 million VET x 0.00042 = 63000 VeThor);
@@ -35,7 +46,12 @@ const getBaseRate = (Mjolnir_Nodes_Number=667, Thunder_Nodes_Number=500, Strnegt
   const NB = F/(2*A + 2*M + 1.5*T + 1*S);
   return NB;
 }
-const getXBaseRate = (Mjolnir_Nodes_Number=207, Thunder_Nodes_Number=288, Strnegth_Nodes_Number=1078, Vethor_Nodes_Number=2083) => {
+const getXBaseRate = (
+  Mjolnir_Nodes_Number = Ecosystem.Mjolnir_Nodes_Number,
+  Thunder_Nodes_Number = Ecosystem.Thunder_Nodes_Number,
+  Strnegth_Nodes_Number = Ecosystem.Strnegth_Nodes_Number,
+  Vethor_Nodes_Number = Ecosystem.Vethor_Nodes_Number
+) => {
 // const getXBaseRate = (Mjolnir_Nodes_Number=79, Thunder_Nodes_Number=102, Strnegth_Nodes_Number=522, Vethor_Nodes_Number=1447) => {
   const B = Base_Thor_Rate                                 // Base VeThor generation rate for 1 VET held (0.00042 VeThor a day);
   const FRX = Foundation_X_Reward_Pool_Amount
@@ -107,34 +123,54 @@ const BonusRate = {
   [nodeTypes['x_nodes']['VeThor']]: 25,
 }
 
-const getNodeRate = (amount, isX, config={}) => {
-  if(!isX){
-    const { M, T, S } = config;
-    const baseRate = getBaseRate(M, T, S);
-    const type = calcType(isX, amount);
-    const formula = Base_Thor_Rate + (baseRate * BonusRate[type]/100);
-    return amount * formula;
+const Info = (amount, isX=false, config={}) => {
+  this.user = {};
+  this.blockain = {};
+  this.user.amount = amount;
+  this.user.is_x_node = isX;
+  this.user.node_config = config;
+  this.blockain.nodes = Ecosystem;
+  if(!this.user.is_x_node){
+    const { M, T, S } = this.user.node_config;
+    this.blockain.baseRate = getBaseRate(M, T, S);
+    this.user.node_type = calcType(this.user.is_x_node, this.user.amount);
+    this.user.thor_generation_rate_per_vet = Base_Thor_Rate + (this.blockain.baseRate * BonusRate[this.user.node_type]/100);
+    this.user.thor_amount_per_day = this.user.amount * this.user.thor_generation_rate_per_vet;
   }
-  if(isX){
-    const { M, T, S, V } = config;
-    const baseRate = getBaseRate(M, T, S);
-    const xBaseRate = getXBaseRate(M, T, S, V);
-    const type = calcType(isX, amount);
-    const formula = Base_Thor_Rate + (baseRate * BonusRate[type]/100) + (xBaseRate * BonusRate[type]/100);
-    return amount * formula;
+  if(this.user.is_x_node){
+    const { M, T, S, V } = this.user.node_config;
+    this.blockain.baseRate = getBaseRate(M, T, S);
+    this.blockain.xBaseRate = getXBaseRate(M, T, S, V);
+    this.user.node_type = calcType(this.user.is_x_node, this.user.amount);
+    this.user.thor_generation_rate_per_vet = Base_Thor_Rate + (this.blockain.baseRate * BonusRate[this.user.node_type]/100) + (this.blockain.xBaseRate * BonusRate[this.user.node_type]/100);
+    this.user.thor_amount_per_day = this.user.amount * this.user.thor_generation_rate_per_vet;
   }
-  return amount * formula;
+  return this;
 }
 
 const vtho_price = 0.002;
-const user_vet_amount = (process.argv[2].includes('M')) ? Number(process.argv[2].split('M')[0]*Million):Number(process.argv[2]) || 1*Million;
-const user_is_x = !!process.argv[1] || false;
-const user_type = calcType(user_is_x, user_vet_amount)
-const per_day = getNodeRate(user_vet_amount, user_is_x);
 
-console.log('Amount: \t', user_vet_amount, 'VET');
-console.log('NodeType: \t', `${user_type}`);
-console.log('Generate: \t', per_day.toFixed(4), 'vtho/day');
-console.log('\x1b[32mWorth: \t\t', `$${(per_day * vtho_price).toFixed(2)}/day (based on $${vtho_price}/vtho)\x1b[0m`);
+if(process.argv[2]){
+  const user_vet_amount = (process.argv[2].includes('M')) ? Number(process.argv[2].split('M')[0]*Million):Number(process.argv[2]) || 1*Million;
+  const user_is_x = Boolean(process.argv[3]) || false;
+  const info = Info(user_vet_amount, user_is_x);
+  const user_type = info.user.node_type;
+  const per_day = info.user.thor_generation_rate_per_vet*user_vet_amount;
+  var table = new Table({
+    chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+    , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+    , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
+    , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
+  });
+  table.push(
+    { 'VET Amount': `${user_vet_amount} VET` },
+    { 'Node Type': `${user_type}` },
+    { 'Generation': `${per_day.toFixed(8)} vtho/day` },
+    { 'Worth': `$ ${(per_day * vtho_price).toFixed(3)}/day (based on $${vtho_price}/vtho)` },
+  );
+  console.log(table.toString());
+  // –*–*–*–*–*–*–*–*–*–*–*– You Thor Summary –*–*–*–*–*–*–*–*–*–*–*–-
+  console.log('resource: https://github.com/VechainCommunity/thor-calculator')
+}
 
-module.exports = getNodeRate;
+module.exports = Info;

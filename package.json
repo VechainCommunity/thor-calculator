@@ -1,17 +1,17 @@
 {
   "name": "thor-calculator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A CLI tool to check your VeThor generation rate (For Vechain blockchain)",
   "main": "index.js",
   "scripts": {
-    "get": "node ./utils/calculator.js"
+    "demo": "node ./demo.js"
   },
   "bin": {
     "thor": "./index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VechainCommunity/thor_calculator.git"
+    "url": "git+https://github.com/VechainCommunity/thor-calculator.git"
   },
   "keywords": [
     "blockchain",
@@ -20,7 +20,10 @@
   "author": "Amazingandyyy <amazingandyyy@gmail.com> (Andy Chen)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VechainCommunity/thor_calculator/issues"
+    "url": "https://github.com/VechainCommunity/thor-calculator/issues"
   },
-  "homepage": "https://github.com/VechainCommunity/thor_calculator#readme"
+  "homepage": "https://github.com/VechainCommunity/thor-calculator#readme",
+  "dependencies": {
+    "cli-table2": "^0.2.0"
+  }
 }

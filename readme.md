@@ -1,4 +1,7 @@
 # Thor Calculator
+This is a package the calculating thor generation rate based on 
+- [Offical Node docs](https://medium.com/@vechainofficial/vechain-apotheosis-part-ii-thor-power-forged-974111a93278 )
+- [Official Vechain X Node Guideline](https://medium.com/@vechainofficial/vechain-x-series-6b77b746b4b2)
 
 ## installation
 
@@ -13,7 +16,6 @@ $ npm i thor-calculator
 ```terminal
 $ yarn add thor-calculator
 ```
-
 
 ## Usage
 
