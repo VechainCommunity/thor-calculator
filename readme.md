@@ -29,30 +29,42 @@ $ thor <your VET amount> <is X node(true/>false)>
 *Note you can also use Million(**M**) shorthand*
 
 ```terminal
-$ thor 1M true
+$ thor 1.123M false
 ```
 
 #### Sample Respond
 
 ```terminal
-Amount:          1000000 VET
-NodeType:        VeThor X Node
-Generate:        517.6123 vtho/day
-Worth:           $1.04/day (based on $0.002/vtho)
+╔════════════╤════════════════════════════════════╗
+║ VET Amount │ 1123000 VET                        ║
+╟────────────┼────────────────────────────────────╢
+║ Node Type  │ VeThor X Node                      ║
+╟────────────┼────────────────────────────────────╢
+║ Generation │ 650.65428620 vtho/day              ║
+╟────────────┼────────────────────────────────────╢
+║ Worth      │ $ 1.301/day (based on $0.002/vtho) ║
+╚════════════╧════════════════════════════════════╝
+resource: https://github.com/VechainCommunity/thor-calculator
 ```
 
 #### Another example
 ```terminal
-$ thor 5.77M true
+$ thor 5.6M true
 ```
 
 #### Sample Respond
 
 ```terminal
-Amount:          5770000 VET
-NodeType:        Thunder X Node
-Generate:        5802.7392 vtho/day
-Worth:           $11.61/day (based on $0.002/vtho)
+╔════════════╤═════════════════════════════════════╗
+║ VET Amount │ 5600000 VET                         ║
+╟────────────┼─────────────────────────────────────╢
+║ Node Type  │ Thunder X Node                      ║
+╟────────────┼─────────────────────────────────────╢
+║ Generation │ 7707.48354085 vtho/day              ║
+╟────────────┼─────────────────────────────────────╢
+║ Worth      │ $ 15.415/day (based on $0.002/vtho) ║
+╚════════════╧═════════════════════════════════════╝
+resource: https://github.com/VechainCommunity/thor-calculator
 ```
 
 ### Use it as a Nodejs Module
