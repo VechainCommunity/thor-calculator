@@ -19,9 +19,7 @@ $ yarn add thor-calculator
 ```
 
 ### Demo
-<div style="text-align: center">
-  <img src="https://media.giphy.com/media/7JyI4O4H4T73Y7BZv1/giphy.gif" width="80%" />
-</div>
+<img src="https://media.giphy.com/media/7JyI4O4H4T73Y7BZv1/giphy.gif" width="80%" />
 
 
 ## Usage
