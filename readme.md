@@ -18,6 +18,10 @@ $ npm i thor-calculator -save // for node_modules usage
 $ yarn add thor-calculator
 ```
 
+### Demo
+![demo](https://media.giphy.com/media/88i7g4IyubrxhzGH6p/giphy.gif)
+
+
 ## Usage
 
 ### Use it in CLI
