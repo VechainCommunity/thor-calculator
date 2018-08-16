@@ -27,8 +27,10 @@ $ yarn add thor-calculator
 ### Use it in CLI
 
 ```terminal
-$ thor <your VET amount> <X node status(true/false)>
-$ thor 1000000 true
+$ thor <your VET amount> <X node status(true/false - default to false)>
+$ thor 1550000 true     // sample, is X Node
+$ thor 3450000 false    // sample, is not X Node
+$ thor 1235000          // sample, default is not X Node
 ```
 
 *Note you can also use Million(**M**) shorthand*
