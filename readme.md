@@ -8,7 +8,8 @@ This is a package the calculating thor generation rate based on
 ### Install from NPM
 
 ```terminal
-$ npm i thor-calculator
+$ npm i thor-calculator -g    // for CLI tool
+$ npm i thor-calculator -save // for node_modules usage
 ```
 
 ### Install from yarn
