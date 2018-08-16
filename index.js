@@ -10,6 +10,9 @@ https://medium.com/@vechainofficial/vechain-apotheosis-part-ii-thor-power-forged
 https://medium.com/@vechainofficial/vechain-x-series-6b77b746b4b2
 */ 
 const Table = require('cli-table2');
+const axios = require('axios');
+const chalk = require('chalk');
+var Spinner = require('cli-spinner').Spinner;
 
 const Million = 1000000;
 const Base_Thor_Rate = 0.00042; // VTHO per VET per Day
@@ -64,10 +67,6 @@ const getXBaseRate = (
   const NBX = FX/(2*M + 1.5*T + 1*S + 0.25*V);
   return NBX;
 }
-
-getBaseRate()
-getXBaseRate()
-
 
 const nodeTypes = {
   'economic_nodes': {
@@ -148,11 +147,37 @@ const Info = (amount, isX=false, config={}) => {
   return this;
 }
 
-const vtho_price = 0.002;
-
+let vtho_price = 0.002;
+let spinner;
 if(process.argv[2]){
+  spinner = new Spinner('%s calculating...');
+  spinner.setSpinnerString('⢹⢺⢼⣸⣇⡧⡗⡏');
+  console.log(``);
+  spinner.start();
+  axios.get('http://api.lbank.info/v1/ticker.do?symbol=eth_usdt')
+  .then(r=>{
+    const eth_price_in_usdt = r.data.ticker.latest;
+    axios.get('http://api.lbank.info/v1/ticker.do?symbol=vtho_eth')
+    .then(r=>{
+      const vtho_price_in_eth = Number(r.data.ticker.latest);
+      vtho_price = (vtho_price_in_eth * eth_price_in_usdt).toFixed(8);
+      axios.get('http://api.lbank.info/v1/ticker.do?symbol=vet_usdt')
+      .then(r=>{
+        const vet_price_in_usdt = Number(r.data.ticker.latest);
+        const current_timestamp = new Date(r.data.timestamp);
+        const current_date_time = `${current_timestamp.toLocaleDateString()} ${current_timestamp.toLocaleTimeString()}`;
+        spinner.stop();
+        console.log(``);
+        console.log(``);
+        print({current_date_time, vtho_price, vet_price_in_usdt});
+      })
+    }).catch(err=>console.error(err));
+  }).catch(err=>console.error(err));
+}
+
+const print = ({ current_date_time, vtho_price, vet_price_in_usdt }) => {
   const user_vet_amount = (process.argv[2].includes('M')) ? Number(process.argv[2].split('M')[0]*Million):Number(process.argv[2]) || 1*Million;
-  const user_is_x = Boolean(process.argv[3]) || false;
+  const user_is_x = (process.argv[3]==='true');
   const info = Info(user_vet_amount, user_is_x);
   const user_type = info.user.node_type;
   const per_day = info.user.thor_generation_rate_per_vet*user_vet_amount;
@@ -163,14 +188,29 @@ if(process.argv[2]){
     , 'right': '║' , 'right-mid': '╢' , 'middle': '│' }
   });
   table.push(
-    { 'VET Amount': `${user_vet_amount} VET` },
-    { 'Node Type': `${user_type}` },
-    { 'Generation': `${per_day.toFixed(8)} vtho/day` },
-    { 'Worth': `$ ${(per_day * vtho_price).toFixed(3)}/day (based on $${vtho_price}/vtho)` },
+    { 'VET Amount': chalk.green(`${user_vet_amount} VET($${vet_price_in_usdt*user_vet_amount})`) },
+    { 'Node Type': chalk.yellow(`${user_type}`) },
+    { 'Generation': 
+      [`${per_day.toFixed(8)} vtho/day`,
+      `${(per_day * 30).toFixed(8)} vtho/month`,
+      `${(per_day * 365).toFixed(8)} vtho/year`]
+    },
+    { 
+      Profits: [chalk.green(`$${(per_day * vtho_price).toFixed(3)}/day`),
+      `$${(per_day * vtho_price * 30).toFixed(3)}/month`,
+      `$${(per_day * vtho_price * 365).toFixed(3)}/year`]
+    },
+    {
+      'Annual Return': 
+      `${((per_day * vtho_price * 365)/(vet_price_in_usdt*user_vet_amount)*100).toFixed(2)}%`
+    }
   );
   console.log(table.toString());
-  // –*–*–*–*–*–*–*–*–*–*–*– You Thor Summary –*–*–*–*–*–*–*–*–*–*–*–-
-  console.log('resource: https://github.com/VechainCommunity/thor-calculator')
+  console.log(`> VET's current price at ${chalk.bold(`$${vet_price_in_usdt}`)} on LBank`);
+  console.log(`> VTHO's current price at ${chalk.bold(`$${vtho_price}`)} on LBank`);
+  console.log('> resource: https://github.com/VechainCommunity/thor-calculator')
+  console.log(`> current time: ${current_date_time}`);
+  console.log(``);
 }
 
 module.exports = Info;
