@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable */
-
 /* REFERENCE TO OFFCICAL DOCUMENTATION
 # nodes: 
 https://medium.com/@vechainofficial/vechain-apotheosis-part-ii-thor-power-forged-974111a93278 
