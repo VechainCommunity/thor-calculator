@@ -19,7 +19,7 @@ $ yarn add thor-calculator
 ```
 
 ### Demo
-![demo](https://media.giphy.com/media/8YZzCgzFbChobyZ4de/giphy.gif)
+![demo](https://media.giphy.com/media/2bVXEuIzIJXVTHjAXp/giphy.gif)
 
 
 ## Usage
