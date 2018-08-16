@@ -60,47 +60,46 @@ $ thor 1.55M true
 
 ```
 
-#### Another example
-```terminal
-$ thor 5.678M false
-```
+### Use it as a Nodejs Module([sample code](https://github.com/VechainCommunity/thor-calculator/blob/master/demo.js))
 
-#### Sample Respond
-
-```terminal
-
-⡗ calculating...
-
-╔═══════════════╤════════════════════════╤═════════════════════════════════════════════════════════╗
-║ VET Amount    │ 5678000 VET($44515.52) │                                                         ║
-╟───────────────┼────────────────────────╢                                                         ║
-║ Node Type     │ Thunder Node           │                                                         ║
-╟───────────────┼────────────────────────┼────────────────────────────╤────────────────────────────╢
-║ Generation    │ 6137.00475524 vtho/day │ 184110.14265734 vtho/month │ 2240006.73566434 vtho/year ║
-╟───────────────┼────────────────────────┼────────────────────────────┼────────────────────────────╢
-║ Profits       │ $10.424/day            │ $312.724/month             │ $3804.808/year             ║
-╟───────────────┼────────────────────────┼────────────────────────────╧────────────────────────────╢
-║ Annual Return │ 8.55%                  │                                                         ║
-╚═══════════════╧════════════════════════╧═════════════════════════════════════════════════════════╝
-> VET's current price at $0.00784 on LBank
-> VTHO's current price at $0.00169857 on LBank
-> resource: https://github.com/VechainCommunity/thor-calculator
-> current time: 2018-8-15 18:52:31
-
-```
-
-### Use it as a Nodejs Module
-
+#### snippets
 ```javascript
-import getThorRate from 'thor-calculator';
-const thorRate = getThorRate(1000000, false);
-console.log(thorRate)
+const thorPerDay = require('./index');
+const info = thorPerDay(1000000, false);
+console.log(info);
 ```
-
-*Note you can check demo [here](https://github.com/VechainCommunity/thor-calculator/blob/master/demo.js)*
+#### print out
+```javascript
+{ 
+  user: { 
+     amount: 1000000,
+     is_x_node: false,
+     node_config: {},
+     node_type: 'Strength Node',
+     thor_generation_rate_per_vet: 0.0008605594405594406,
+     thor_amount_per_day: 860.5594405594406 
+  },
+  blockain: { 
+     nodes: { 
+        Mjolnir_Nodes_Number: 200,
+        Thunder_Nodes_Number: 300,
+        Strnegth_Nodes_Number: 1000,
+        Vethor_Nodes_Number: 2000 
+     },
+     baseRate: 0.0004405594405594406 
+  } 
+}
+```
 
 ## Author
 [Amazingandyyy](https://github.com/amazingandyyy)
 
 ## License
 [MIT](https://github.com/VechainCommunity/thor-calculator/blob/master/license)
+
+
+## Help
+- PR
+- issues
+- stars
+- forks
