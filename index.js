@@ -25,10 +25,10 @@ const Requirement = {
 }
 const RequirementXBonus = 0.6*Million;
 const Ecosystem = {
-  Mjolnir_Nodes_Number: 667,
-  Thunder_Nodes_Number: 1600,
-  Strength_Nodes_Number: 5000,
-  Vethor_Nodes_Number: 5000
+  Mjolnir_Nodes_Number: 667/3,
+  Thunder_Nodes_Number: 1600/3,
+  Strength_Nodes_Number: 5000/3,
+  Vethor_Nodes_Number: 5000/3
 }
 
 const getBaseRate = (
