@@ -25,16 +25,16 @@ const Requirement = {
 }
 const RequirementXBonus = 0.6*Million;
 const Ecosystem = {
-  Mjolnir_Nodes_Number: 200,
-  Thunder_Nodes_Number: 300,
-  Strnegth_Nodes_Number: 1000,
-  Vethor_Nodes_Number: 2000
+  Mjolnir_Nodes_Number: 667,
+  Thunder_Nodes_Number: 1600,
+  Strength_Nodes_Number: 5000,
+  Vethor_Nodes_Number: 5000
 }
 
 const getBaseRate = (
   Mjolnir_Nodes_Number = Ecosystem.Mjolnir_Nodes_Number,
   Thunder_Nodes_Number = Ecosystem.Thunder_Nodes_Number,
-  Strnegth_Nodes_Number = Ecosystem.Strnegth_Nodes_Number
+  Strength_Nodes_Number = Ecosystem.Strength_Nodes_Number
 ) => {
   const B = Base_Thor_Rate                                   // Base VeThor generation rate for 1 VET held (0.00042 VeThor a day);
   const FR = Foundation_Reward_Pool_Amount                   // Amount of VET distributed from the Foundation Reward Pool (150 million VET);
@@ -42,7 +42,7 @@ const getBaseRate = (
   const A = Authority_Node_Number*Requirement['Authority']   // Number of Authority Node designated VET (101 nodes x 250000 = 25250000 VET);
   const M = Mjolnir_Nodes_Number*Requirement['Mjolnir']      // Number of Mjolnir nodes designated VET (variable);
   const T = Thunder_Nodes_Number*Requirement['Thunder']      // Number of Thunder nodes designated VET (variable);
-  const S = Strnegth_Nodes_Number*Requirement['Strength']    // Number of Strength nodes designated VET (variable);
+  const S = Strength_Nodes_Number*Requirement['Strength']    // Number of Strength nodes designated VET (variable);
 
   const NB = F/(2*A + 2*M + 1.5*T + 1*S);
   return NB;
@@ -50,16 +50,16 @@ const getBaseRate = (
 const getXBaseRate = (
   Mjolnir_Nodes_Number = Ecosystem.Mjolnir_Nodes_Number,
   Thunder_Nodes_Number = Ecosystem.Thunder_Nodes_Number,
-  Strnegth_Nodes_Number = Ecosystem.Strnegth_Nodes_Number,
+  Strength_Nodes_Number = Ecosystem.Strength_Nodes_Number,
   Vethor_Nodes_Number = Ecosystem.Vethor_Nodes_Number
 ) => {
-// const getXBaseRate = (Mjolnir_Nodes_Number=79, Thunder_Nodes_Number=102, Strnegth_Nodes_Number=522, Vethor_Nodes_Number=1447) => {
+// const getXBaseRate = (Mjolnir_Nodes_Number=79, Thunder_Nodes_Number=102, Strength_Nodes_Number=522, Vethor_Nodes_Number=1447) => {
   const B = Base_Thor_Rate                                 // Base VeThor generation rate for 1 VET held (0.00042 VeThor a day);
   const FRX = Foundation_X_Reward_Pool_Amount
   const FX = FRX*B
   const M = Mjolnir_Nodes_Number*(Requirement['Mjolnir']+RequirementXBonus)
   const T = Thunder_Nodes_Number*(Requirement['Thunder']+RequirementXBonus)
-  const S = Strnegth_Nodes_Number*(Requirement['Strength']+RequirementXBonus)
+  const S = Strength_Nodes_Number*(Requirement['Strength']+RequirementXBonus)
   const V = Vethor_Nodes_Number*RequirementXBonus
   
   const NBX = FX/(2*M + 1.5*T + 1*S + 0.25*V);
