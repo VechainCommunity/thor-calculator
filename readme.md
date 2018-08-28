@@ -66,8 +66,8 @@ $ thor 1.55M true
 
 #### snippets
 ```javascript
-const thorPerDay = require('./index');
-const info = thorPerDay(1000000, false);
+const thorCalculator = require('./index');
+const info = thorCalculator(1000000, false);
 console.log(info);
 ```
 #### print out
