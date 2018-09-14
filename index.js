@@ -24,11 +24,15 @@ const Requirement = {
   Strength: 1   *Million
 }
 const RequirementXBonus = 0.6*Million;
+// Based on the info on http://nodes.valhallavet.io/
 const Ecosystem = {
-  Mjolnir_Nodes_Number: 667/3,
-  Thunder_Nodes_Number: 1600/3,
-  Strength_Nodes_Number: 5000/3,
-  Vethor_Nodes_Number: 5000/3
+  Mjolnir_Nodes_Number: 139,
+  Thunder_Nodes_Number: 49,
+  Strength_Nodes_Number: 958,
+  Vethor_Nodes_Number: 2206,
+  Strength_X_Nodes_Number: 1979,
+  Thunder_X_Nodes_Number: 478,
+  Mjolnir_X_Nodes_Number: 306
 }
 
 const getBaseRate = (
@@ -48,12 +52,11 @@ const getBaseRate = (
   return NB;
 }
 const getXBaseRate = (
-  Mjolnir_Nodes_Number = Ecosystem.Mjolnir_Nodes_Number,
-  Thunder_Nodes_Number = Ecosystem.Thunder_Nodes_Number,
-  Strength_Nodes_Number = Ecosystem.Strength_Nodes_Number,
+  Mjolnir_Nodes_Number = Ecosystem.Mjolnir_X_Nodes_Number,
+  Thunder_Nodes_Number = Ecosystem.Thunder_X_Nodes_Number,
+  Strength_Nodes_Number = Ecosystem.Strength_X_Nodes_Number,
   Vethor_Nodes_Number = Ecosystem.Vethor_Nodes_Number
 ) => {
-// const getXBaseRate = (Mjolnir_Nodes_Number=79, Thunder_Nodes_Number=102, Strength_Nodes_Number=522, Vethor_Nodes_Number=1447) => {
   const B = Base_Thor_Rate                                 // Base VeThor generation rate for 1 VET held (0.00042 VeThor a day);
   const FRX = Foundation_X_Reward_Pool_Amount
   const FX = FRX*B
